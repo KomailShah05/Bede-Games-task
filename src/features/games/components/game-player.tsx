@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { AccessibilityInfo, ActivityIndicator, StyleSheet, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 import { colors } from '@/constants/theme';
@@ -21,7 +21,11 @@ export const GamePlayer = ({ game }: GamePlayerProps) => {
   const [status, setStatus] = useState<Status>('loading');
   const [attempt, setAttempt] = useState(0);
 
-  const markReady = () => setStatus((current) => (current === 'loading' ? 'ready' : current));
+  const markReady = () => {
+    if (status !== 'loading') return;
+    setStatus('ready');
+    AccessibilityInfo.announceForAccessibility(`${game.title} is ready to play`);
+  };
 
   const retry = () => {
     setStatus('loading');

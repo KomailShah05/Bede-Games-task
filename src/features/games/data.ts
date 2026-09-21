@@ -16,7 +16,7 @@ export const GAMES: Game[] = [
       'Race through the streets with Om Nom. Dodge obstacles, collect coins and power-ups, and chase a new high score.',
     playUrl: playUrl('om-nom-run'),
     thumbnailUrl: thumbnailUrl('OmNomRun'),
-    color: '#7065E8',
+    color: '#6356DB',
   },
   {
     id: 'cannon-balls-3d',

@@ -13,19 +13,15 @@ type GameCardProps = {
 export const GameCard = ({ game, onPress }: GameCardProps) => (
   <Pressable
     accessibilityRole="button"
-    accessibilityLabel={`Play ${game.title}, ${game.category}`}
-    accessibilityHint={game.description}
+    accessibilityLabel={`${game.title}. ${game.category}. ${game.description}`}
+    accessibilityHint="Opens the game full screen"
     onPress={() => onPress(game)}
     style={({ pressed }) => [styles.card, pressed && styles.pressed]}>
     <GameThumbnail game={game} style={styles.thumbnail} />
     <View style={styles.content}>
       <Text style={styles.category}>{game.category}</Text>
-      <Text style={styles.title} numberOfLines={1}>
-        {game.title}
-      </Text>
-      <Text style={styles.description} numberOfLines={3}>
-        {game.description}
-      </Text>
+      <Text style={styles.title}>{game.title}</Text>
+      <Text style={styles.description}>{game.description}</Text>
     </View>
   </Pressable>
 );
@@ -33,8 +29,7 @@ export const GameCard = ({ game, onPress }: GameCardProps) => (
 const styles = StyleSheet.create({
   card: {
     ...shadow.card,
-    flexBasis: '46%',
-    flexGrow: 1,
+    flex: 1,
     backgroundColor: colors.surface,
     borderColor: colors.border,
     borderWidth: StyleSheet.hairlineWidth,
@@ -43,7 +38,6 @@ const styles = StyleSheet.create({
   },
   pressed: {
     opacity: 0.85,
-    transform: [{ scale: 0.985 }],
   },
   thumbnail: {
     width: '100%',
@@ -67,7 +61,7 @@ const styles = StyleSheet.create({
   },
   description: {
     color: colors.textMuted,
-    fontSize: 12,
-    lineHeight: 17,
+    fontSize: 13,
+    lineHeight: 18,
   },
 });

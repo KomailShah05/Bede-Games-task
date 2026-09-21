@@ -13,8 +13,8 @@ type FeaturedGameCardProps = {
 export const FeaturedGameCard = ({ game, onPress }: FeaturedGameCardProps) => (
   <Pressable
     accessibilityRole="button"
-    accessibilityLabel={`Play ${game.title}, pick of the day`}
-    accessibilityHint={game.description}
+    accessibilityLabel={`Pick of the day: ${game.title}. ${game.category}. ${game.description}`}
+    accessibilityHint="Opens the game full screen"
     onPress={() => onPress(game)}
     style={({ pressed }) => [
       styles.card,
@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
   },
   pressed: {
     opacity: 0.9,
-    transform: [{ scale: 0.99 }],
   },
   header: {
     flexDirection: 'row',
@@ -87,14 +86,14 @@ const styles = StyleSheet.create({
     letterSpacing: -1,
   },
   category: {
-    color: 'rgba(255, 255, 255, 0.8)',
+    color: colors.white,
     fontSize: 12,
     fontWeight: '800',
     letterSpacing: 0.7,
     textTransform: 'uppercase',
   },
   description: {
-    color: 'rgba(255, 255, 255, 0.9)',
+    color: colors.white,
     fontSize: 14,
     fontWeight: '600',
     lineHeight: 20,
