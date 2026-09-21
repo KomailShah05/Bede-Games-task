@@ -7,11 +7,10 @@ type PlayerErrorProps = {
 };
 
 export const PlayerError = ({ onRetry }: PlayerErrorProps) => (
-  <View
-    accessibilityRole="alert"
-    accessibilityLiveRegion="assertive"
-    style={[StyleSheet.absoluteFill, styles.container]}>
-    <Text style={styles.title}>Couldn't load this game</Text>
+  <View style={[StyleSheet.absoluteFill, styles.container]}>
+    <Text accessibilityRole="alert" accessibilityLiveRegion="assertive" style={styles.title}>
+      Couldn't load this game
+    </Text>
     <Text style={styles.message}>Check your connection and try again.</Text>
     <Pressable
       accessibilityRole="button"
