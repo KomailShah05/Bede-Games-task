@@ -2,13 +2,19 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { colors, spacing } from '@/constants/theme';
 
-export const ScreenHeader = () => (
+type ScreenHeaderProps = {
+  label?: string;
+  title: string;
+  subtitle?: string;
+};
+
+export const ScreenHeader = ({ label, title, subtitle }: ScreenHeaderProps) => (
   <View style={styles.container}>
-    <Text style={styles.eyebrow}>YOUR NEXT FAVOURITE</Text>
-    <Text accessibilityRole="header" style={styles.heading}>
-      Press play.{'\n'}Stay awhile.
+    {label && <Text style={styles.label}>{label}</Text>}
+    <Text accessibilityRole="header" style={styles.title}>
+      {title}
     </Text>
-    <Text style={styles.subheading}>A small, hand-picked collection of browser games.</Text>
+    {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
   </View>
 );
 
@@ -16,20 +22,21 @@ const styles = StyleSheet.create({
   container: {
     gap: spacing.sm,
   },
-  eyebrow: {
+  label: {
     color: colors.accent,
     fontSize: 11,
     fontWeight: '900',
     letterSpacing: 1.3,
+    textTransform: 'uppercase',
   },
-  heading: {
+  title: {
     color: colors.text,
     fontSize: 34,
     fontWeight: '900',
     letterSpacing: -1.5,
     lineHeight: 38,
   },
-  subheading: {
+  subtitle: {
     color: colors.textMuted,
     fontSize: 15,
     lineHeight: 22,

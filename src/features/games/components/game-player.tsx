@@ -1,41 +1,24 @@
-import { useState } from 'react';
-import { AccessibilityInfo, ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 import { colors } from '@/constants/theme';
 
+import { useGameLoader } from '../hooks/use-game-loader';
 import type { Game } from '../types';
 import { PlayerError } from './player-error';
+import { PlayerLoading } from './player-loading';
 
 type GamePlayerProps = {
   game: Game;
 };
 
-type Status = 'loading' | 'ready' | 'error';
-
-// Game pages keep loading ads and assets long after they are playable,
-// so we reveal the game once most of the page has loaded instead of waiting for onLoadEnd.
-const READY_PROGRESS = 0.7;
-
 export const GamePlayer = ({ game }: GamePlayerProps) => {
-  const [status, setStatus] = useState<Status>('loading');
-  const [attempt, setAttempt] = useState(0);
-
-  const markReady = () => {
-    if (status !== 'loading') return;
-    setStatus('ready');
-    AccessibilityInfo.announceForAccessibility(`${game.title} is ready to play`);
-  };
-
-  const retry = () => {
-    setStatus('loading');
-    setAttempt((count) => count + 1);
-  };
+  const { status, webViewKey, webViewHandlers, retry } = useGameLoader(game.title);
 
   return (
     <View style={styles.container}>
       <WebView
-        key={attempt}
+        key={webViewKey}
         source={{ uri: game.playUrl }}
         accessibilityLabel={`${game.title} game`}
         style={styles.webView}
@@ -46,17 +29,9 @@ export const GamePlayer = ({ game }: GamePlayerProps) => {
         setSupportMultipleWindows={false}
         allowsInlineMediaPlayback
         mediaPlaybackRequiresUserAction={false}
-        onLoadProgress={({ nativeEvent }) => {
-          if (nativeEvent.progress >= READY_PROGRESS) markReady();
-        }}
-        onLoadEnd={markReady}
-        onError={() => setStatus('error')}
+        {...webViewHandlers}
       />
-      {status === 'loading' && (
-        <View pointerEvents="none" style={[StyleSheet.absoluteFill, styles.loader]}>
-          <ActivityIndicator size="large" color={colors.white} accessibilityLabel="Loading game" />
-        </View>
-      )}
+      {status === 'loading' && <PlayerLoading />}
       {status === 'error' && <PlayerError onRetry={retry} />}
     </View>
   );
@@ -69,11 +44,6 @@ const styles = StyleSheet.create({
   },
   webView: {
     flex: 1,
-    backgroundColor: colors.black,
-  },
-  loader: {
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: colors.black,
   },
 });
