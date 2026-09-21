@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { colors, radius, shadow, spacing } from '@/constants/theme';
 
 import type { Game } from '../types';
-import { GameArtwork } from './game-artwork';
+import { GameThumbnail } from './game-thumbnail';
 
 type GameCardProps = {
   game: Game;
@@ -17,10 +17,7 @@ export const GameCard = ({ game, onPress }: GameCardProps) => (
     accessibilityHint={game.description}
     onPress={() => onPress(game)}
     style={({ pressed }) => [styles.card, pressed && styles.pressed]}>
-    <GameArtwork
-      artwork={game.artwork}
-      style={[styles.artwork, { backgroundColor: game.artwork.primaryColor }]}
-    />
+    <GameThumbnail game={game} style={styles.thumbnail} />
     <View style={styles.content}>
       <Text style={styles.category}>{game.category}</Text>
       <Text style={styles.title} numberOfLines={1}>
@@ -48,9 +45,9 @@ const styles = StyleSheet.create({
     opacity: 0.85,
     transform: [{ scale: 0.985 }],
   },
-  artwork: {
-    aspectRatio: 1.4,
-    overflow: 'hidden',
+  thumbnail: {
+    width: '100%',
+    aspectRatio: 1,
   },
   content: {
     gap: spacing.xs,

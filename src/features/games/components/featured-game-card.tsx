@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { colors, radius, shadow, spacing } from '@/constants/theme';
 
 import type { Game } from '../types';
-import { GameArtwork } from './game-artwork';
+import { GameThumbnail } from './game-thumbnail';
 
 type FeaturedGameCardProps = {
   game: Game;
@@ -18,22 +18,24 @@ export const FeaturedGameCard = ({ game, onPress }: FeaturedGameCardProps) => (
     onPress={() => onPress(game)}
     style={({ pressed }) => [
       styles.card,
-      { backgroundColor: game.artwork.primaryColor },
+      { backgroundColor: game.color },
       pressed && styles.pressed,
     ]}>
-    <GameArtwork artwork={game.artwork} size="large" style={StyleSheet.absoluteFill} />
+    <View style={styles.header}>
+      <View style={styles.headerText}>
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>PICK OF THE DAY</Text>
+        </View>
+        <Text style={styles.title}>{game.title}</Text>
+        <Text style={styles.category}>{game.category}</Text>
+      </View>
+      <GameThumbnail game={game} style={styles.thumbnail} />
+    </View>
 
-    <View style={styles.content}>
-      <View style={styles.badge}>
-        <Text style={styles.badgeText}>PICK OF THE DAY</Text>
-      </View>
-      <Text style={styles.title}>{game.title}</Text>
-      <Text style={styles.description} numberOfLines={3}>
-        {game.description}
-      </Text>
-      <View style={styles.playButton}>
-        <Text style={styles.playText}>▶  Play now</Text>
-      </View>
+    <Text style={styles.description}>{game.description}</Text>
+
+    <View style={styles.playButton}>
+      <Text style={styles.playText}>▶  Play now</Text>
     </View>
   </Pressable>
 );
@@ -41,17 +43,29 @@ export const FeaturedGameCard = ({ game, onPress }: FeaturedGameCardProps) => (
 const styles = StyleSheet.create({
   card: {
     ...shadow.card,
+    gap: spacing.md,
     borderRadius: radius.lg,
-    overflow: 'hidden',
     padding: spacing.xl,
   },
   pressed: {
     opacity: 0.9,
     transform: [{ scale: 0.99 }],
   },
-  content: {
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.lg,
+  },
+  headerText: {
+    flex: 1,
     gap: spacing.sm,
-    maxWidth: '68%',
+  },
+  thumbnail: {
+    width: 96,
+    height: 96,
+    borderRadius: radius.md,
+    borderWidth: 3,
+    borderColor: 'rgba(255, 255, 255, 0.6)',
   },
   badge: {
     alignSelf: 'flex-start',
@@ -68,19 +82,25 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.white,
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: '900',
     letterSpacing: -1,
   },
+  category: {
+    color: 'rgba(255, 255, 255, 0.8)',
+    fontSize: 12,
+    fontWeight: '800',
+    letterSpacing: 0.7,
+    textTransform: 'uppercase',
+  },
   description: {
-    color: 'rgba(255, 255, 255, 0.85)',
+    color: 'rgba(255, 255, 255, 0.9)',
     fontSize: 14,
     fontWeight: '600',
     lineHeight: 20,
   },
   playButton: {
     alignSelf: 'flex-start',
-    marginTop: spacing.sm,
     minHeight: 44,
     justifyContent: 'center',
     paddingHorizontal: spacing.xl,

@@ -13,9 +13,15 @@ type GamePlayerProps = {
 
 type Status = 'loading' | 'ready' | 'error';
 
+// Game pages keep loading ads and assets long after they are playable,
+// so we reveal the game once most of the page has loaded instead of waiting for onLoadEnd.
+const READY_PROGRESS = 0.7;
+
 export const GamePlayer = ({ game }: GamePlayerProps) => {
   const [status, setStatus] = useState<Status>('loading');
   const [attempt, setAttempt] = useState(0);
+
+  const markReady = () => setStatus((current) => (current === 'loading' ? 'ready' : current));
 
   const retry = () => {
     setStatus('loading');
@@ -29,15 +35,21 @@ export const GamePlayer = ({ game }: GamePlayerProps) => {
         source={{ uri: game.playUrl }}
         accessibilityLabel={`${game.title} game`}
         style={styles.webView}
+        originWhitelist={['*']}
         javaScriptEnabled
         domStorageEnabled
+        thirdPartyCookiesEnabled
+        setSupportMultipleWindows={false}
         allowsInlineMediaPlayback
         mediaPlaybackRequiresUserAction={false}
-        onLoadEnd={() => setStatus((current) => (current === 'error' ? current : 'ready'))}
+        onLoadProgress={({ nativeEvent }) => {
+          if (nativeEvent.progress >= READY_PROGRESS) markReady();
+        }}
+        onLoadEnd={markReady}
         onError={() => setStatus('error')}
       />
       {status === 'loading' && (
-        <View style={[StyleSheet.absoluteFill, styles.loader]}>
+        <View pointerEvents="none" style={[StyleSheet.absoluteFill, styles.loader]}>
           <ActivityIndicator size="large" color={colors.white} accessibilityLabel="Loading game" />
         </View>
       )}

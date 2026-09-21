@@ -1,6 +1,12 @@
 import type { Game } from './types';
 
-// play.famobi.com is the embed URL html5games.com uses; it redirects straight to the playable game.
+// Play and thumbnail URLs are the ones html5games.com itself uses.
+const PLAY_BASE_URL = 'https://play.famobi.com';
+const THUMBNAIL_BASE_URL = 'https://img.cdn.famobi.com/portal/html5games/images/tmp';
+
+const playUrl = (slug: string) => `${PLAY_BASE_URL}/${slug}/A1000-10`;
+const thumbnailUrl = (name: string) => `${THUMBNAIL_BASE_URL}/${name}Teaser.jpg`;
+
 export const GAMES: Game[] = [
   {
     id: 'om-nom-run',
@@ -8,8 +14,9 @@ export const GAMES: Game[] = [
     category: 'Runner',
     description:
       'Race through the streets with Om Nom. Dodge obstacles, collect coins and power-ups, and chase a new high score.',
-    playUrl: 'https://play.famobi.com/om-nom-run',
-    artwork: { primaryColor: '#7065E8', secondaryColor: '#A8ED74', monogram: 'ON' },
+    playUrl: playUrl('om-nom-run'),
+    thumbnailUrl: thumbnailUrl('OmNomRun'),
+    color: '#7065E8',
   },
   {
     id: 'cannon-balls-3d',
@@ -17,8 +24,9 @@ export const GAMES: Game[] = [
     category: 'Arcade',
     description:
       'Aim your cannon and knock every tower down. Use as few balls as possible to earn all three stars.',
-    playUrl: 'https://play.famobi.com/cannon-balls-3d',
-    artwork: { primaryColor: '#FF885B', secondaryColor: '#FFC76A', monogram: 'CB' },
+    playUrl: playUrl('cannon-balls-3d'),
+    thumbnailUrl: thumbnailUrl('CannonBalls3d'),
+    color: '#FF885B',
   },
   {
     id: 'fun-race-3d',
@@ -26,8 +34,9 @@ export const GAMES: Game[] = [
     category: 'Racing',
     description:
       'Tap to run, release to stop. Time your moves past spinning traps and beat your rivals to the finish.',
-    playUrl: 'https://play.famobi.com/fun-race-3d',
-    artwork: { primaryColor: '#F15C98', secondaryColor: '#FFA66D', monogram: 'FR' },
+    playUrl: playUrl('fun-race-3d'),
+    thumbnailUrl: thumbnailUrl('FunRace3d'),
+    color: '#F15C98',
   },
   {
     id: '3d-free-kick',
@@ -35,8 +44,9 @@ export const GAMES: Game[] = [
     category: 'Sport',
     description:
       'Swipe to curl the ball over the wall and past the keeper. Hit the targets for bonus points.',
-    playUrl: 'https://play.famobi.com/3d-free-kick',
-    artwork: { primaryColor: '#2AB4C9', secondaryColor: '#71E0BD', monogram: 'FK' },
+    playUrl: playUrl('3d-free-kick'),
+    thumbnailUrl: thumbnailUrl('3dFreeKick'),
+    color: '#2AB4C9',
   },
   {
     id: 'solitaire-klondike',
@@ -44,8 +54,9 @@ export const GAMES: Game[] = [
     category: 'Cards',
     description:
       'The classic patience card game. Build four foundation piles from Ace to King to clear the table.',
-    playUrl: 'https://play.famobi.com/solitaire-klondike',
-    artwork: { primaryColor: '#5D7EEA', secondaryColor: '#AAB9FF', monogram: 'SK' },
+    playUrl: playUrl('solitaire-klondike'),
+    thumbnailUrl: thumbnailUrl('SolitaireKlondike'),
+    color: '#5D7EEA',
   },
 ];
 
